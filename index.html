@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="auto-designer-preview-device" content="slide">
+<title>The Mooncake Festival — A Classroom Deck for Curious Kids</title>
+<!--
+  Discovery:
+    deliverable: 9-slide classroom deck (HTML, 1920x1080, keyboard nav, speaker notes)
+    audience: 6-year-old students, US public school, teacher-presented on smartboard
+    direction: storybook warm — hand-drawn pastel "daisy days" system, festival-night accents
+    sections: title / what-is-it / moon / legend / mooncakes / one kid's night / one moon for all / class game / closing
+    differentiation: one child's festival-night journey + a shared-moon moment kids can act on tonight
+  Design thinking:
+    Purpose: introduce Mid-Autumn Festival warmly and simply, no prior knowledge assumed
+    Tone: soft pastel storybook — cozy, joyful, safe (design-system tokens used as-is)
+    Constraints: 16:9 fixed canvas, body text >= 24px, secular cultural framing, print-ready
+    Differentiation: "look for the rabbit on the moon tonight" — a take-home wonder moment
+  <!-- font-stack: Fredoka One + Quicksand (per skeleton design system; system fallbacks included) -->
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#F5F0E6;--turquoise:#7ECDC0;--soft-pink:#F7C8D4;--butter:#FDE68A;
+  --mint:#A8E6CF;--lavender:#D4A5E8;--peach:#FFCBA4;--sky:#A8D8F0;--coral:#F8635F;
+  --text-dark:#2D2D2D;--text-muted:#6B6B6B;
+  --border:#2D2D2D;--border-width:3px;--radius:20px;--radius-lg:28px;
+  --shadow:6px 6px 0 var(--border);--shadow-sm:4px 4px 0 var(--border);
+  --font-display:'Fredoka One','Comic Sans MS','Segoe UI',cursive;
+  --font-body:'Quicksand','Segoe UI',Verdana,sans-serif;
+}
+html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-body);color:var(--text-dark);background:var(--cream)}
+
+/* ---- Fixed 16:9 stage, scaled to fit ---- */
+.deck{position:fixed;left:50%;top:50%;width:1920px;height:1080px;
+  transform:translate(-50%,-50%) scale(var(--deck-scale,1))}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;
+  overflow:hidden;padding:56px 88px}
+.slide.is-active{display:flex;animation:slideIn .45s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.slide.is-active{animation:none}}
+
+/* ---- Typography ---- */
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em}
+.slide h1{font-size:118px;line-height:1.05}
+.slide h2{font-size:64px;line-height:1.12;letter-spacing:-.01em}
+.slide h3{font-size:36px;line-height:1.2}
+.slide p,.slide li{font-size:30px;line-height:1.5}
+.kicker{font-family:var(--font-display);font-size:26px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text-muted);margin-bottom:18px}
+.subtitle{font-weight:600;font-size:34px;color:var(--text-muted);margin-top:20px}
+.h-white{color:#fff;text-shadow:3px 3px 0 var(--border)}
+.h-margin{margin-bottom:44px;position:relative;z-index:2;text-align:center}
+
+/* ---- Components ---- */
+.card{background:#fff;border:var(--border-width) solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+.badge{display:inline-block;padding:10px 26px;border-radius:50px;border:var(--border-width) solid var(--border);
+  font-family:var(--font-display);font-size:26px;letter-spacing:.06em;text-transform:uppercase;background:var(--butter)}
+.chip{display:inline-block;padding:10px 24px;border-radius:50px;border:var(--border-width) solid var(--border);
+  background:#fff;font-weight:700;font-size:26px;box-shadow:var(--shadow-sm)}
+.img-frame{background:#fff;border:var(--border-width) solid var(--border);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow);overflow:hidden}
+.img-frame img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ---- Decorations ---- */
+.deco{position:absolute;pointer-events:none;z-index:1}
+.deco svg{width:100%;height:100%;display:block}
+.content{position:relative;z-index:2;width:100%;display:flex;flex-direction:column;align-items:center}
+
+/* ---- Navigation ---- */
+.nav-dots{position:absolute;right:26px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:50}
+.nav-dot{width:16px;height:16px;border-radius:50%;border:3px solid var(--border);background:#fff;cursor:pointer;
+  padding:0;transition:transform .2s,background .2s}
+.nav-dot.is-active{background:var(--butter);transform:scale(1.25)}
+.nav-dot:focus-visible{outline:3px dashed var(--border);outline-offset:3px}
+.slide-counter{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);background:#fff;
+  border:var(--border-width) solid var(--border);border-radius:50px;padding:8px 26px;
+  font-family:var(--font-display);font-size:24px;z-index:50;box-shadow:var(--shadow-sm);letter-spacing:.05em}
+button:focus-visible{outline:3px dashed var(--border);outline-offset:3px}
+
+/* ---- Slide 1 · Title ---- */
+.s1 .moon-big{top:70px;right:110px;width:300px;height:300px}
+.s1 .deco-daisy-tl{top:-30px;left:-30px;width:230px;height:230px}
+.s1 .deco-daisy-bl{bottom:-40px;left:30px;width:200px;height:200px}
+.s1 .deco-star-1{top:16%;left:8%;width:90px;height:90px;color:#FBB0C7}
+.s1 .deco-star-2{bottom:18%;left:12%;width:70px;height:70px;color:#D4A5E8}
+.s1 .deco-star-3{bottom:14%;right:10%;width:80px;height:80px;color:#A8E6CF}
+.s1 .title-box{text-align:center;max-width:1250px}
+.s1 .title-box .badge{margin-bottom:34px}
+.s1 .subtitle{max-width:900px;margin-left:auto;margin-right:auto}
+
+/* ---- Slide 2 · What is it ---- */
+.s2 .welcome-frame{width:100%;max-width:1180px}
+.s2 .welcome-header{background:var(--mint);border:var(--border-width) solid var(--border);border-bottom:none;
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;padding:26px 40px;text-align:center}
+.s2 .welcome-body{background:#fff;border:var(--border-width) solid var(--border);border-radius:0 0 var(--radius-lg) var(--radius-lg);
+  padding:44px 64px;box-shadow:var(--shadow)}
+.s2 .welcome-list{list-style:none;display:flex;flex-direction:column;gap:26px}
+.s2 .welcome-list li{font-weight:600;padding-left:52px;position:relative;line-height:1.4}
+.s2 .welcome-list li::before{content:"";position:absolute;left:0;top:8px;width:28px;height:28px;
+  background:var(--butter);border:3px solid var(--border);border-radius:50%}
+.s2 .deco-sun{top:7%;left:4%;width:150px;height:150px}
+.s2 .deco-rainbow{bottom:6%;right:3%;width:190px;height:138px}
+.s2 .deco-star-1{top:15%;right:7%;width:80px;height:80px;color:#FBB0C7}
+.s2 .deco-star-2{bottom:17%;left:6%;width:64px;height:64px;color:#FDE366}
+
+/* ---- Slide 3 · Moon ---- */
+.s3 .moon-hero{width:470px;height:470px;margin-bottom:40px;flex-shrink:0}
+.s3 .moon-caption{max-width:1150px;text-align:center;padding:30px 48px}
+.s3 .moon-question{margin-top:30px}
+.s3 .deco-star-1{top:10%;left:6%;width:84px;height:84px;color:#fff}
+.s3 .deco-star-2{top:18%;right:8%;width:70px;height:70px;color:#FBB0C7}
+.s3 .deco-star-3{bottom:12%;left:10%;width:64px;height:64px;color:#FDE366}
+.s3 .deco-cloud{bottom:6%;right:5%;width:170px;height:170px}
+
+/* ---- Slide 4 · Story ---- */
+.s4 .split{display:grid;grid-template-columns:1fr 780px;gap:64px;width:100%;max-width:1560px;align-items:center}
+.s4 .story-card{padding:48px 56px;display:flex;flex-direction:column;gap:30px}
+.s4 .story-row{display:flex;align-items:flex-start;gap:24px}
+.s4 .story-dot{width:56px;height:56px;border-radius:50%;border:var(--border-width) solid var(--border);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:28px;color:#fff}
+.s4 .story-dot.d1{background:var(--coral)}.s4 .story-dot.d2{background:var(--turquoise)}.s4 .story-dot.d3{background:var(--lavender)}
+.s4 .story-row p{font-weight:600;line-height:1.45}
+.s4 .img-frame{height:560px}
+.s4 .deco-star-1{top:10%;left:5%;width:76px;height:76px;color:#FDE366}
+.s4 .deco-daisy-br{bottom:-20px;right:-20px;width:160px;height:160px}
+
+/* ---- Slide 5 · Mooncakes ---- */
+.s5 .split{display:grid;grid-template-columns:780px 1fr;gap:64px;width:100%;max-width:1560px;align-items:center}
+.s5 .img-frame{height:560px}
+.s5 .fact-list{list-style:none;display:flex;flex-direction:column;gap:24px}
+.s5 .fact-list li{background:#fff;border:var(--border-width) solid var(--border);border-radius:var(--radius);
+  padding:22px 30px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:22px;font-weight:600}
+.s5 .fact-list li b{display:block;font-family:var(--font-display);font-weight:400;font-size:30px;letter-spacing:0}
+.s5 .fact-list li span{color:var(--text-muted);font-size:27px}
+.s5 .swatch{width:34px;height:34px;border-radius:50%;border:3px solid var(--border);flex-shrink:0}
+.s5 .deco-star-1{top:12%;right:6%;width:74px;height:74px;color:#FBB0C7}
+.s5 .deco-daisy-bl{bottom:-16px;left:-16px;width:150px;height:150px}
+
+/* ---- Slide 6 · Mei's night ---- */
+.s6 .split{display:grid;grid-template-columns:1fr 700px;gap:60px;width:100%;max-width:1580px;align-items:center}
+.s6 .night-list{list-style:none;display:flex;flex-direction:column;gap:22px}
+.s6 .night-row{display:flex;align-items:center;gap:22px;background:#fff;border:var(--border-width) solid var(--border);
+  border-radius:var(--radius);padding:20px 30px;box-shadow:var(--shadow-sm)}
+.s6 .night-dot{width:54px;height:54px;border-radius:50%;border:var(--border-width) solid var(--border);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:26px;color:#fff}
+.s6 .night-dot.d1{background:var(--coral)}.s6 .night-dot.d2{background:var(--sky)}.s6 .night-dot.d3{background:var(--mint)}.s6 .night-dot.d4{background:var(--lavender)}
+.s6 .night-row b{font-family:var(--font-display);font-weight:400;font-size:29px;display:block}
+.s6 .night-row span{font-size:26px;color:var(--text-muted);font-weight:600}
+.s6 .img-frame{height:600px}
+.s6 .deco-daisy-tl{top:-16px;left:-16px;width:150px;height:150px}
+.s6 .deco-star-1{bottom:10%;left:4%;width:70px;height:70px;color:#FDE366}
+
+/* ---- Slide 7 · One moon ---- */
+.s7 .split{display:grid;grid-template-columns:1fr 760px;gap:60px;width:100%;max-width:1560px;align-items:center}
+.s7 .quote-card{padding:52px 56px;text-align:center}
+.s7 .quote-mark{font-family:var(--font-display);font-size:84px;line-height:1;color:var(--soft-pink);margin-bottom:10px}
+.s7 .quote-text{font-family:var(--font-display);font-size:38px;line-height:1.35;letter-spacing:0}
+.s7 .quote-author{margin-top:24px;font-weight:700;font-size:26px;color:var(--text-muted)}
+.s7 .img-frame{height:580px}
+.s7 .deco-daisy-tl{top:4%;left:3%;width:150px;height:150px}
+.s7 .deco-star-1{top:10%;right:10%;width:76px;height:76px;color:#FDE366}
+.s7 .deco-star-2{bottom:14%;left:7%;width:60px;height:60px;color:#fff}
+.s7 .deco-rainbow{bottom:5%;right:3%;width:160px;height:116px}
+
+/* ---- Slide 8 · Game ---- */
+.s8 .steps{display:flex;align-items:flex-start;justify-content:center;gap:20px;width:100%;max-width:1560px;z-index:2}
+.s8 .step{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px}
+.s8 .step-circle{width:120px;height:120px;border-radius:50%;border:var(--border-width) solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:52px;color:#fff;
+  box-shadow:var(--shadow-sm)}
+.s8 .step-circle.s1{background:var(--coral)}.s8 .step-circle.s2{background:var(--turquoise)}.s8 .step-circle.s3{background:var(--lavender)}
+.s8 .step-title{font-family:var(--font-display);font-size:34px}
+.s8 .step-desc{font-size:27px;font-weight:600;color:var(--text-muted);line-height:1.45;max-width:420px}
+.s8 .arrow{font-family:var(--font-display);font-size:56px;color:var(--border);margin-top:36px}
+.s8 .game-note{margin-top:44px;font-size:26px;font-weight:600;color:var(--text-muted);position:relative;z-index:2}
+.s8 .deco-cloud{top:8%;left:4%;width:160px;height:160px}
+.s8 .deco-star-1{top:12%;right:6%;width:74px;height:74px;color:#FBB0C7}
+.s8 .deco-daisy-br{bottom:-14px;right:-14px;width:150px;height:150px}
+
+/* ---- Slide 9 · Closing ---- */
+.s9 .moon-big{top:60px;left:110px;width:280px;height:280px}
+.s9 .deco-daisy-tr{top:20px;right:-20px;width:190px;height:190px}
+.s9 .deco-daisy-bl{bottom:-30px;left:40px;width:180px;height:180px}
+.s9 .deco-star-1{top:20%;right:12%;width:84px;height:84px;color:#FBB0C7}
+.s9 .deco-star-2{bottom:16%;right:8%;width:66px;height:66px;color:#A8E6CF}
+.s9 .closing-box{text-align:center;max-width:1250px}
+.s9 .closing-box .badge{margin-bottom:32px}
+.s9 .lang-pill{margin-top:38px;background:#fff;font-weight:700}
+.s9 .lang-pill i{font-style:normal;font-family:var(--font-display);font-size:32px;letter-spacing:0;color:var(--text-dark)}
+
+/* ---- Speaker notes: presenter-only, never shown on screen ---- */
+aside.notes{display:none}
+
+/* ---- Print: one 1920x1080 landscape page per slide ---- */
+@page{size:1920px 1080px landscape;margin:0}
+@media print{
+  html,body{width:auto;height:auto;overflow:visible;background:#fff}
+  .deck{position:static;left:auto;top:auto;transform:none;width:auto;height:auto}
+  .slide{position:relative;inset:auto;width:1920px;height:1080px;page-break-after:always;
+    display:flex!important;opacity:1!important;animation:none!important;break-after:page}
+  .nav-dots,.slide-counter{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Shared decorative symbols (reused across slides) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="sym-daisy" viewBox="0 0 150 150">
+      <path fill="#FFFFFF" stroke="#232323" stroke-width="2.0745" stroke-linecap="round" stroke-linejoin="round" d="m66.6 53.8-5.9-13.8c-2.2-5.9-4.6-17.9-1.7-26.2 1.7-4.9 6.7-11.4 15.4-11.4 8.7-.2 13.4 4.6 15.7 8.6 4.8 8.1 2.5 20.3-.1 27.7l-6.8 15.1"/>
+      <path fill="#FFFFFF" stroke="#232323" stroke-width="2.0745" stroke-linecap="round" stroke-linejoin="round" d="m92.1 115.2c1.3 5.8 1.9 13.8-.2 19.9-1.9 5.1-6.4 12.5-16.9 12.5-8.4 0-14.9-5.3-16.8-13.1-1.7-7-.6-15.2 1.7-22l6.7-16.4"/>
+      <path fill="#FFFFFF" stroke="#232323" stroke-width="2.0745" stroke-linecap="round" stroke-linejoin="round" d="m96 66.4 14.7-5.8c5.9-2.4 16.2-8.3 19.8-17 2.8-6.4 2.1-14.2-4.3-19.7-2.8-2.5-6.2-4.2-10.2-5-9.3-.6-15.8 5.5-20.3 10.9-2.7 3.4-5.1 7.4-6.8 11l-5.7 12.8"/>
+      <path fill="#FFFFFF" stroke="#232323" stroke-width="2.0745" stroke-linecap="round" stroke-linejoin="round" d="m54 84-14.7 5.5c-5.7 2.1-12.3 6.6-15.9 10.9-1.9 2.3-4 5.7-4.9 8.9-2.1 8.5 2.8 18 11.7 21.8 4.9 1.3 9.3.9 13.6-1.2 7.6-3.6 13.8-12.1 16.9-18.5l5.9-13.6"/>
+      <path fill="#FFFFFF" stroke="#232323" stroke-width="2.0745" stroke-linecap="round" stroke-linejoin="round" d="m96.2 83.8 14.5 5.5c5.9 2.1 15.7 8.3 19.5 16.2 2.6 5.1 3.2 12.1-1.9 18.7-2.7 3.3-7 6.9-13.2 6.9-8.5 0-14.1-5-18.3-9.7-2.6-3.2-5.4-7.6-7.3-11.5l-6.1-14.2"/>
+      <path fill="#FFFFFF" stroke="#232323" stroke-width="2.0745" stroke-linecap="round" stroke-linejoin="round" d="m54 66.1-14.3-5.5c-5.7-2.1-15.9-3.4-23.1-2.1-6.2 1.2-11.9 5.9-13.4 12.1-1.7 7.6 1.7 17.2 11.9 20.2 7 2.1 16.8 1.1 23.6-1.1l15.5-5.9"/>
+      <path fill="#FFFFFF" stroke="#232323" stroke-width="2.0745" stroke-linecap="round" stroke-linejoin="round" d="m116.4 58.9c4.2-.9 9.2-1.5 14.1-.9 5.1.5 9.7 2.6 12.9 6.4 6.2 7 5.1 17.3-1.5 22.8-2.3 2.1-5.5 3.8-9.5 4.4-6.8 1.1-14.1.3-21.3-1.9"/>
+      <path fill="#FFFFFF" stroke="#232323" stroke-width="2.0745" stroke-linecap="round" stroke-linejoin="round" d="m60.7 40c-3.3-6.4-10.5-17.1-18.8-20.5-7.2-3.1-15.5-1.5-20.4 4.9-2.1 2.8-3.7 6.2-3.7 10-.2 8.5 5.8 15.4 13.7 20.7 3.2 2.1 7 4.2 10.6 5.5"/>
+      <path fill="#FCDF6C" stroke="#232323" stroke-width="2.0745" stroke-linecap="round" stroke-linejoin="round" d="m75.1 52.1c-10.9 0-22.6 8.9-22.6 23 0 9.3 7 22.1 22.6 22.1 11.7 0 22.5-8.7 22.5-21.9 0-11.1-9.3-23.2-22.5-23.2z"/>
+    </symbol>
+    <symbol id="sym-star" viewBox="0 0 100 98.6">
+      <path fill="currentColor" stroke="#2D2D2D" stroke-width="2.4166" stroke-miterlimit="10" d="m57.7 7.8 8.3 19.1c.5 1.3 1.5 2.1 2.8 2.3l21.5 2.2c6.4.8 9.4 8.3 5.3 13.7l-16.2 15.2c-1 .9-1.5 2.5-1.2 4.2l4.3 21.1c.9 6.2-4.9 11.6-12 8.7l-18.1-10.2c-1.4-.8-3.3-.8-4.8 0l-17.8 10.2c-6 2.9-13.2-.6-12.7-8l4.5-21.3c.3-1.7-.1-3.5-1.3-4.5l-15.2-13.5c-4.5-4.3-3.6-13.6 4.2-15.6l21.5-2.2c1.3-.1 2.3-.9 2.9-2.3l8.7-19.1c2.7-6 11.5-7.7 15.3 0z"/>
+    </symbol>
+    <symbol id="sym-sun" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="26" fill="#FFCD57" stroke="#2D2D2D" stroke-width="2.8"/>
+      <g stroke="#2D2D2D" stroke-width="2.8" stroke-linecap="round">
+        <line x1="60" y1="10" x2="60" y2="24"/><line x1="60" y1="96" x2="60" y2="110"/>
+        <line x1="10" y1="60" x2="24" y2="60"/><line x1="96" y1="60" x2="110" y2="60"/>
+        <line x1="24.5" y1="24.5" x2="34" y2="34"/><line x1="86" y1="86" x2="95.5" y2="95.5"/>
+        <line x1="24.5" y1="95.5" x2="34" y2="86"/><line x1="86" y1="34" x2="95.5" y2="24.5"/>
+      </g>
+      <circle cx="51" cy="55" r="3" fill="#2D2D2D"/><circle cx="69" cy="55" r="3" fill="#2D2D2D"/>
+      <path d="M 50 68 Q 60 76 70 68" fill="none" stroke="#2D2D2D" stroke-width="2.8" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="sym-cloud" viewBox="0 0 128 128">
+      <path fill="#FFFFFF" stroke="#000" stroke-width="2.1405" stroke-linecap="round" stroke-linejoin="round" d="m106.8 57.3c-.3 0 0 0 0 0 1.7 0 2.8.1 3.8.3.2-1 .3-2 .3-3.1 0-7.2-6.3-16.3-15.5-16.3-2 0-3.9.4-6.2 1.1-2.2-6.2-9.3-16-23.8-16-10 0-18.8 5.8-23 15-1.9-.7-4.1-1.1-6.7-1.1-10.1 0-19.2 8.3-19.2 19.6 0 1.3.2 2.6.4 4.3-7.6 1.5-14.2 8.2-14.2 17.7 0 8.4 6.4 18.9 17.4 18.9 2.2 0 3.8-.1 5.5-.7l27.3 2.6 48.1-4.7c1.9.5 3.8.8 6.2.8 11.3 0 18.2-9 18.2-19.7 0-7.8-6.4-17.4-15-18.4l-3.6-.3z"/>
+      <path fill="#C6E3F6" d="m123.7 70.6c-1.4 6.3-6.6 14.5-17.8 14.6-1 0-1.9-.1-2.8-.2l-1.6.9c-2.9 2.8-6.9 5.3-12.5 5.3-2.1 0-4.4-.3-6.4-1.1-.5-.2-1.2-.1-1.6.2-2.1 1.6-7.4 5.2-14.8 5.2-5.1 0-10.5-1.9-15.2-5.5-.8-1.1-2.3-1.1-2.4.6-2 4-14.5 7.7-23-3.8-.5-1.2-2.1-1.4-2.3.6-8.8 1-16.3-2.3-19.6-10.6-1.4 5.3 1.5 20.3 16 20.2 2.2 0 4.2-.1 5.9-.6l28.3 4.2c3-1.5 4.2 4.3 12.6 4 6.1-.2 11.1-2 14.2-5.6 2 .6 3.9 1.6 7.7 1.6 5 0 9.5-1.5 12.5-5.6l3.5.4c1 .2 2 .2 3 .2 11.2 0 19.2-10 17.2-21.6l-.9-3.4z"/>
+    </symbol>
+    <symbol id="sym-rainbow" viewBox="0 0 140 101.4">
+      <path fill="#F8635F" stroke="#1E1E1C" stroke-width="1.6" d="M130 95c0-35-25.5-63.5-60-63.5S10 60 10 95"/>
+      <path fill="#FDE366" stroke="#1E1E1C" stroke-width="1.6" d="M115 95c0-26.2-19-48.5-45-48.5S25 68.8 25 95"/>
+      <path fill="#8DE3B7" stroke="#1E1E1C" stroke-width="1.6" d="M100 95c0-17.5-12.8-33.5-30-33.5S40 77.5 40 95"/>
+      <path fill="#85C5FE" stroke="#1E1E1C" stroke-width="1.6" d="M85 95c0-8.8-6.3-18.5-15-18.5S55 86.2 55 95"/>
+    </symbol>
+    <symbol id="sym-moon" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="52" fill="#FDE68A" stroke="#2D2D2D" stroke-width="3"/>
+      <circle cx="44" cy="42" r="9" fill="#FFCBA4" stroke="#2D2D2D" stroke-width="2"/>
+      <circle cx="74" cy="60" r="7" fill="#FFCBA4" stroke="#2D2D2D" stroke-width="2"/>
+      <circle cx="50" cy="80" r="6" fill="#FFCBA4" stroke="#2D2D2D" stroke-width="2"/>
+      <circle cx="80" cy="32" r="4" fill="#FFCBA4" stroke="#2D2D2D" stroke-width="2"/>
+    </symbol>
+    <symbol id="sym-lantern" viewBox="0 0 120 160">
+      <line x1="60" y1="4" x2="60" y2="26" stroke="#2D2D2D" stroke-width="4" stroke-linecap="round"/>
+      <rect x="46" y="26" width="28" height="12" rx="4" fill="#F8635F" stroke="#2D2D2D" stroke-width="3"/>
+      <ellipse cx="60" cy="80" rx="44" ry="42" fill="currentColor" stroke="#2D2D2D" stroke-width="3"/>
+      <path d="M40 44 Q52 80 40 116" fill="none" stroke="#2D2D2D" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M60 38 Q60 80 60 122" fill="none" stroke="#2D2D2D" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M80 44 Q68 80 80 116" fill="none" stroke="#2D2D2D" stroke-width="2.4" stroke-linecap="round"/>
+      <rect x="46" y="120" width="28" height="12" rx="4" fill="#F8635F" stroke="#2D2D2D" stroke-width="3"/>
+      <line x1="60" y1="132" x2="60" y2="148" stroke="#F8635F" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="60" cy="152" r="5" fill="#FDE68A" stroke="#2D2D2D" stroke-width="2.4"/>
+    </symbol>
+  </defs>
+</svg>
+
+<main class="deck" id="deck">
+
+  <!-- ============ SLIDE 1 · Title ============ -->
+  <section class="slide s1" id="slide-1" role="group" aria-roledescription="slide" aria-label="Slide 1 of 9: The Mooncake Festival" data-screen-label="Cover">
+    <div class="deco moon-big"><svg aria-hidden="true"><use href="#sym-moon"/></svg></div>
+    <div class="deco deco-daisy-tl"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
+    <div class="deco deco-daisy-bl"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
+    <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="deco deco-star-2"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="deco deco-star-3"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="content title-box">
+      <span class="badge">Let's learn together</span>
+      <h1>The Mooncake Festival</h1>
+      <p class="subtitle">A story of the brightest, roundest moon of the whole year</p>
+      <p style="margin-top:30px"><span class="chip">Also called the Mid-Autumn Festival</span></p>
+    </div>
+    <aside class="notes">Good morning, friends! Today we are going on a trip — no airplane needed — to a festival celebrated by families all around the world: the Mooncake Festival. It happens every fall, on the night when the moon is the brightest and roundest of the whole year. Look at our big friendly moon here. Have you ever seen the moon look this round? Keep that picture in your mind, because it will follow us through our whole story today.</aside>
+  </section>
+
+  <!-- ============ SLIDE 2 · What is it ============ -->
+  <section class="slide s2" id="slide-2" role="group" aria-roledescription="slide" aria-label="Slide 2 of 9: What is the Mooncake Festival" data-screen-label="What is it">
+    <div class="deco deco-sun"><svg aria-hidden="true"><use href="#sym-sun"/></svg></div>
+    <div class="deco deco-rainbow"><svg aria-hidden="true"><use href="#sym-rainbow"/></svg></div>
+    <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="deco deco-star-2"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="content">
+      <div class="welcome-frame">
+        <div class="welcome-header"><h2>What Is the Mooncake Festival?</h2></div>
+        <div class="welcome-body">
+          <ul class="welcome-list">
+            <li>It comes in fall, in September or October, on a special night</li>
+            <li>That night, the moon is the roundest and brightest of the year</li>
+            <li>Families celebrate it in China, Vietnam, Korea, and many other places</li>
+            <li>It is a happy time for family, food, stories, and moon-gazing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Let's learn the name first. In China, people call it the Mid-Autumn Festival, because it comes right in the middle of autumn. In Vietnam, it is a big party just for children, called Tet Trung Thu. In Korea, families celebrate Chuseok. Different names — but always the same big, bright moon. Now raise your hand: does anyone here celebrate a special fall day at home with family? Every answer is welcome in our class.</aside>
+  </section>
+
+  <!-- ============ SLIDE 3 · Look at the moon ============ -->
+  <section class="slide s3" id="slide-3" role="group" aria-roledescription="slide" aria-label="Slide 3 of 9: Look at the Moon" data-screen-label="The Moon">
+    <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="deco deco-star-2"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="deco deco-star-3"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="deco deco-cloud"><svg aria-hidden="true"><use href="#sym-cloud"/></svg></div>
+    <div class="content">
+      <h2 class="h-white h-margin">Look at the Moon!</h2>
+      <svg class="moon-hero" viewBox="0 0 120 120" aria-hidden="true"><use href="#sym-moon"/></svg>
+      <div class="card moon-caption">
+        <p style="font-weight:600">On festival night, the moon looks like a <b>perfect circle</b> — round like a family sitting together in a ring.</p>
+      </div>
+      <p class="moon-question"><span class="chip">Think: what round things can you find in our classroom?</span></p>
+    </div>
+    <aside class="notes">Here is our star of the show — the moon! On the night of the festival, the moon looks like a giant, glowing circle in the sky. A circle has no corners and no edges — nothing sticking out. That is why the round moon means something special: being together, with no one left out. Now it's your turn: look around our classroom. What round things can you find? Two or three answers, then we fly up to the moon for a story.</aside>
+  </section>
+
+  <!-- ============ SLIDE 4 · The story ============ -->
+  <section class="slide s4" id="slide-4" role="group" aria-roledescription="slide" aria-label="Slide 4 of 9: A Story From the Moon" data-screen-label="The Legend">
+    <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="deco deco-daisy-br"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
+    <div class="content">
+      <h2 class="h-white h-margin">A Story From the Moon</h2>
+      <div class="split">
+        <div class="card story-card">
+          <div class="story-row"><div class="story-dot d1">1</div><p>Long, long ago, a kind woman named <b>Chang'e</b> floated all the way up to the moon.</p></div>
+          <div class="story-row"><div class="story-dot d2">2</div><p>A friendly <b>white rabbit</b> hopped up too, so she would never be lonely.</p></div>
+          <div class="story-row"><div class="story-dot d3">3</div><p>Some people say you can still see them up there — <b>look closely tonight!</b></p></div>
+        </div>
+        <div class="img-frame"><img src="mooncake-festival-assets/moon-rabbit.jpg" alt="Illustration of Chang'e and a white rabbit sitting on a glowing full moon among clouds and stars"></div>
+      </div>
+    </div>
+    <aside class="notes">Every festival has a story, and this one lives on the moon. People have told it for thousands of years. A kind woman named Chang'e floated up to the moon, and a friendly white rabbit hopped along so she would never be lonely. When the moon is full, some people say you can see the shapes of the lady and her rabbit in the moon's soft spots. This is a legend — a very old story that families love to tell. Tonight, squint at the moon and see what shapes YOU find.</aside>
+  </section>
+
+  <!-- ============ SLIDE 5 · Mooncakes ============ -->
+  <section class="slide s5" id="slide-5" role="group" aria-roledescription="slide" aria-label="Slide 5 of 9: Mooncakes" data-screen-label="Mooncakes">
+    <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="deco deco-daisy-bl"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
+    <div class="content">
+      <h2 class="h-margin">Mooncakes: A Sweet Round Treat</h2>
+      <div class="split">
+        <div class="img-frame"><img src="mooncake-festival-assets/mooncakes.jpg" alt="Illustration of golden mooncakes on a plate, one cut open showing a round golden yolk like a little moon"></div>
+        <ul class="fact-list">
+          <li><span class="swatch" style="background:var(--butter)"></span><div><b>Round like the moon</b><span>The shape means family, together in a circle</span></div></li>
+          <li><span class="swatch" style="background:var(--soft-pink)"></span><div><b>Sweet inside</b><span>Lotus seed paste, red bean, or sweet dates</span></div></li>
+          <li><span class="swatch" style="background:var(--sky)"></span><div><b>A hidden moon</b><span>Some have a golden egg yolk inside — a tiny moon!</span></div></li>
+          <li><span class="swatch" style="background:var(--mint)"></span><div><b>Pretty on top</b><span>Stamped with flowers, rabbits, and lucky words</span></div></li>
+        </ul>
+      </div>
+    </div>
+    <aside class="notes">Now for the tastiest part — mooncakes! Say it with me: moon-cake. A mooncake is about the size of your hand, round like the full moon, and filled with something sweet. Some families cut ONE mooncake into enough wedges for the whole family — everyone gets a piece, because sharing is the whole point. And look closely at some mooncakes: inside hides a golden egg yolk, like a tiny moon hiding in your treat. Would you try a bite? What flavor sounds best to you?</aside>
+  </section>
+
+  <!-- ============ SLIDE 6 · Mei's festival night ============ -->
+  <section class="slide s6" id="slide-6" role="group" aria-roledescription="slide" aria-label="Slide 6 of 9: One Kid's Festival Night" data-screen-label="Mei's Night">
+    <div class="deco deco-daisy-tl"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
+    <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="content">
+      <h2 class="h-white h-margin">One Kid's Festival Night</h2>
+      <div class="split">
+        <ul class="night-list">
+          <li class="night-row"><div class="night-dot d1">1</div><div><b>Family dinner</b><span>Grandma and Grandpa come over; everyone cooks together</span></div></li>
+          <li class="night-row"><div class="night-dot d2">2</div><div><b>Lantern time</b><span>Kids light colorful lanterns and walk to the park</span></div></li>
+          <li class="night-row"><div class="night-dot d3">3</div><div><b>Story time</b><span>Grown-ups tell the story of the lady and the rabbit</span></div></li>
+          <li class="night-row"><div class="night-dot d4">4</div><div><b>Moon and cake</b><span>Everyone shares mooncakes and looks up at the moon</span></div></li>
+        </ul>
+        <div class="img-frame"><img src="mooncake-festival-assets/lanterns.jpg" alt="Illustration of children carrying glowing star, fish, and rabbit lanterns in a night parade"></div>
+      </div>
+    </div>
+    <aside class="notes">Let me introduce you to Mei — a kid just like you, who celebrates this festival every year. Her night goes like this: first, family dinner, with Grandma and Grandpa at the table. Then the best part — lanterns! Kids carry glowing lanterns shaped like fish, stars, and rabbits, and walk to the park together. After that, story time under the moon, and finally — mooncakes for everyone. Now tell me: which part of Mei's night would YOU like best? Point to it — dinner, lanterns, story, or cake?</aside>
+  </section>
+
+  <!-- ============ SLIDE 7 · One moon for everyone ============ -->
+  <section class="slide s7" id="slide-7" role="group" aria-roledescription="slide" aria-label="Slide 7 of 9: One Moon for Everyone" data-screen-label="One Moon">
+    <div class="deco deco-daisy-tl"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
+    <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="deco deco-star-2"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="deco deco-rainbow"><svg aria-hidden="true"><use href="#sym-rainbow"/></svg></div>
+    <div class="content">
+      <h2 class="h-white h-margin">One Moon for Everyone</h2>
+      <div class="split">
+        <div class="card quote-card">
+          <div class="quote-mark">&ldquo;</div>
+          <p class="quote-text">When you look up at the moon tonight, remember: someone you love — near or far — may be looking at that very same moon.</p>
+          <p class="quote-author">— A Mid-Autumn saying</p>
+        </div>
+        <div class="img-frame"><img src="mooncake-festival-assets/family-moon.jpg" alt="Illustration of a family with grandparents, parents, and a little girl sharing mooncakes under a bright full moon on a balcony"></div>
+      </div>
+    </div>
+    <aside class="notes">Here is the most beautiful part of the whole festival. Everyone on Earth looks up at the same moon. The very same moon your grandma sees, the same one a cousin far away sees, the same one a friend across the ocean sees. So on festival night, families look up and feel close to each other, even when they are far apart. Maybe some of your neighbors or classmates celebrated last night. Tonight, you can look up too — and think of someone you love while you do it.</aside>
+  </section>
+
+  <!-- ============ SLIDE 8 · Class game ============ -->
+  <section class="slide s8" id="slide-8" role="group" aria-roledescription="slide" aria-label="Slide 8 of 9: Let's Play Pass the Mooncake" data-screen-label="Class Game">
+    <div class="deco deco-cloud"><svg aria-hidden="true"><use href="#sym-cloud"/></svg></div>
+    <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="deco deco-daisy-br"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
+    <div class="content">
+      <h2 class="h-margin">Let's Play: Pass the Mooncake!</h2>
+      <div class="steps">
+        <div class="step"><div class="step-circle s1">1</div><div class="step-title">Make a circle</div><p class="step-desc">Sit with your friends in a big, round ring — just like the moon</p></div>
+        <div class="arrow">&rarr;</div>
+        <div class="step"><div class="step-circle s2">2</div><div class="step-title">Pass the cake</div><p class="step-desc">When the music plays, pass the mooncake around the circle</p></div>
+        <div class="arrow">&rarr;</div>
+        <div class="step"><div class="step-circle s3">3</div><div class="step-title">Stop and share</div><p class="step-desc">Music stops! The holder tells one thing they love to share</p></div>
+      </div>
+      <p class="game-note">No mooncake? Any soft ball works — imagination included.</p>
+    </div>
+    <aside class="notes">Time to play a festival game! It works just like pass-the-parcel, but with a mooncake. We make a big circle — round like the moon, remember. When the music starts, we pass the mooncake around. When the music stops, whoever is holding it shares one thing they love to share with their family — a food, a game, a story, anything. If we don't have a mooncake, any soft ball will do. Ready? Let's make our circle nice and round!</aside>
+  </section>
+
+  <!-- ============ SLIDE 9 · Closing ============ -->
+  <section class="slide s9" id="slide-9" role="group" aria-roledescription="slide" aria-label="Slide 9 of 9: Happy Mid-Autumn Festival" data-screen-label="Closing">
+    <div class="deco moon-big"><svg aria-hidden="true"><use href="#sym-moon"/></svg></div>
+    <div class="deco deco-daisy-tr"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
+    <div class="deco deco-daisy-bl"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
+    <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="deco deco-star-2"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="content closing-box">
+      <span class="badge">Look up tonight</span>
+      <h1>Happy Mid-Autumn Festival!</h1>
+      <p class="subtitle">Wave to Chang'e and the rabbit — then try a mooncake with your family.</p>
+      <p><span class="chip lang-pill">In Chinese, this night is called <i>&nbsp;Zh&#333;ngqi&#363; Ji&eacute; &middot; &#20013;&#31179;&#33410;</i>&nbsp; — can you say it with me?</span></p>
+    </div>
+    <aside class="notes">What a wonderful trip! Let's remember our three treasures from today: the roundest, brightest moon of the year; sweet mooncakes that we share like family; and the story of the kind lady and her rabbit friend. Tonight, look up at the sky. Maybe you'll spot their shapes on the moon — and wave. And here is a new word to take home: in Chinese, this festival is called Zhongqiu Jie. One more time, all together: Zhongqiu Jie! Happy Mid-Autumn Festival, friends!</aside>
+  </section>
+
+  <!-- Navigation -->
+  <nav class="nav-dots" aria-label="Slide navigation">
+    <button class="nav-dot is-active" type="button" aria-label="Go to slide 1" aria-current="true"></button>
+    <button class="nav-dot" type="button" aria-label="Go to slide 2"></button>
+    <button class="nav-dot" type="button" aria-label="Go to slide 3"></button>
+    <button class="nav-dot" type="button" aria-label="Go to slide 4"></button>
+    <button class="nav-dot" type="button" aria-label="Go to slide 5"></button>
+    <button class="nav-dot" type="button" aria-label="Go to slide 6"></button>
+    <button class="nav-dot" type="button" aria-label="Go to slide 7"></button>
+    <button class="nav-dot" type="button" aria-label="Go to slide 8"></button>
+    <button class="nav-dot" type="button" aria-label="Go to slide 9"></button>
+  </nav>
+  <div class="slide-counter" aria-live="polite">01 / 09</div>
+</main>
+
+<script>
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var dots = Array.prototype.slice.call(document.querySelectorAll('.nav-dot'));
+  var counter = document.querySelector('.slide-counter');
+  var pad = function (n) { return String(n).padStart(2, '0'); };
+  var cur = 0;
+
+  function go(i) {
+    cur = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach(function (s, idx) { s.classList.toggle('is-active', idx === cur); });
+    dots.forEach(function (d, idx) {
+      d.classList.toggle('is-active', idx === cur);
+      if (idx === cur) { d.setAttribute('aria-current', 'true'); } else { d.removeAttribute('aria-current'); }
+    });
+    counter.textContent = pad(cur + 1) + ' / ' + pad(slides.length);
+  }
+
+  function fit() {
+    var scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    document.documentElement.style.setProperty('--deck-scale', scale);
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(cur + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(cur - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); go(0); }
+    else if (e.key === 'End') { e.preventDefault(); go(slides.length - 1); }
+  });
+
+  dots.forEach(function (d, idx) { d.addEventListener('click', function () { go(idx); }); });
+  window.addEventListener('resize', fit);
+  fit();
+  go(0);
+})();
+</script>
+</body>
+</html>
