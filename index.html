@@ -129,6 +129,14 @@ button:focus-visible{outline:3px dashed var(--border);outline-offset:3px}
 .s4 .deco-star-1{top:10%;left:5%;width:76px;height:76px;color:#FDE366}
 .s4 .deco-daisy-br{bottom:-20px;right:-20px;width:160px;height:160px}
 
+/* ---- Video slide ---- */
+.s-video .vid-frame{width:1200px;height:676px;background:#fff;border:var(--border-width) solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden;flex-shrink:0}
+.s-video .vid-frame video{width:100%;height:100%;display:block;object-fit:contain;background:#2D2D2D}
+.s-video .watch-chip{margin-top:28px}
+.s-video .deco-star-1{top:10%;left:5%;width:76px;height:76px;color:#FBB0C7}
+.s-video .deco-star-2{top:12%;right:6%;width:70px;height:70px;color:#A8E6CF}
+.s-video .deco-daisy-br{bottom:-16px;right:-16px;width:150px;height:150px}
+
 /* ---- Slide 5 · Mooncakes ---- */
 .s5 .split{display:grid;grid-template-columns:780px 1fr;gap:64px;width:100%;max-width:1560px;align-items:center}
 .s5 .img-frame{height:560px}
@@ -271,7 +279,7 @@ aside.notes{display:none}
 <main class="deck" id="deck">
 
   <!-- ============ SLIDE 1 · Title ============ -->
-  <section class="slide s1" id="slide-1" role="group" aria-roledescription="slide" aria-label="Slide 1 of 9: The Mooncake Festival" data-screen-label="Cover">
+  <section class="slide s1" id="slide-1" role="group" aria-roledescription="slide" aria-label="Slide 1 of 10: The Mooncake Festival" data-screen-label="Cover">
     <div class="deco moon-big"><svg aria-hidden="true"><use href="#sym-moon"/></svg></div>
     <div class="deco deco-daisy-tl"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
     <div class="deco deco-daisy-bl"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
@@ -288,7 +296,7 @@ aside.notes{display:none}
   </section>
 
   <!-- ============ SLIDE 2 · What is it ============ -->
-  <section class="slide s2" id="slide-2" role="group" aria-roledescription="slide" aria-label="Slide 2 of 9: What is the Mooncake Festival" data-screen-label="What is it">
+  <section class="slide s2" id="slide-2" role="group" aria-roledescription="slide" aria-label="Slide 2 of 10: What is the Mooncake Festival" data-screen-label="What is it">
     <div class="deco deco-sun"><svg aria-hidden="true"><use href="#sym-sun"/></svg></div>
     <div class="deco deco-rainbow"><svg aria-hidden="true"><use href="#sym-rainbow"/></svg></div>
     <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
@@ -310,7 +318,7 @@ aside.notes{display:none}
   </section>
 
   <!-- ============ SLIDE 3 · Look at the moon ============ -->
-  <section class="slide s3" id="slide-3" role="group" aria-roledescription="slide" aria-label="Slide 3 of 9: Look at the Moon" data-screen-label="The Moon">
+  <section class="slide s3" id="slide-3" role="group" aria-roledescription="slide" aria-label="Slide 3 of 10: Look at the Moon" data-screen-label="The Moon">
     <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
     <div class="deco deco-star-2"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
     <div class="deco deco-star-3"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
@@ -327,7 +335,7 @@ aside.notes{display:none}
   </section>
 
   <!-- ============ SLIDE 4 · The story ============ -->
-  <section class="slide s4" id="slide-4" role="group" aria-roledescription="slide" aria-label="Slide 4 of 9: A Story From the Moon" data-screen-label="The Legend">
+  <section class="slide s4" id="slide-4" role="group" aria-roledescription="slide" aria-label="Slide 4 of 10: A Story From the Moon" data-screen-label="The Legend">
     <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
     <div class="deco deco-daisy-br"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
     <div class="content">
@@ -344,8 +352,26 @@ aside.notes{display:none}
     <aside class="notes">Every festival has a story, and this one lives on the moon. People have told it for thousands of years. A kind woman named Chang'e floated up to the moon, and a friendly white rabbit hopped along so she would never be lonely. When the moon is full, some people say you can see the shapes of the lady and her rabbit in the moon's soft spots. This is a legend — a very old story that families love to tell. Tonight, squint at the moon and see what shapes YOU find.</aside>
   </section>
 
-  <!-- ============ SLIDE 5 · Mooncakes ============ -->
-  <section class="slide s5" id="slide-5" role="group" aria-roledescription="slide" aria-label="Slide 5 of 9: Mooncakes" data-screen-label="Mooncakes">
+  <!-- ============ SLIDE 5 · Story video ============ -->
+  <section class="slide s-video" id="slide-5" role="group" aria-roledescription="slide" aria-label="Slide 5 of 10: The Festival Story on Video" data-screen-label="Story Video">
+    <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="deco deco-star-2"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
+    <div class="deco deco-daisy-br"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
+    <div class="content">
+      <h2 class="h-margin">The Story, On Screen</h2>
+      <div class="vid-frame">
+        <video controls preload="metadata" poster="mooncake-festival-assets/moon-rabbit.jpg">
+          <source src="mooncake-festival-assets/story-video.mp4" type="video/mp4">
+          Sorry — this browser can't play the video. Ask your teacher to open the deck in Chrome or Edge.
+        </video>
+      </div>
+      <p class="watch-chip"><span class="chip">Moon detectives: watch for lanterns, mooncakes, and the round moon</span></p>
+    </div>
+    <aside class="notes">Now let's see the festival with our own eyes! In this short video, we'll watch how families in China celebrate the Mid-Autumn Festival. While you watch, be a moon detective — look for the lanterns, the mooncakes, and that big round moon. Quiet watching ears on, eyes on the screen. [Play the video. Afterwards:] What did you spot? I saw lanterns too! And did you notice the mooncakes? Let's take a closer look at that very special treat right now.</aside>
+  </section>
+
+<!-- ============ SLIDE 6 · Mooncakes ============ -->
+  <section class="slide s5" id="slide-6" role="group" aria-roledescription="slide" aria-label="Slide 6 of 10: Mooncakes" data-screen-label="Mooncakes">
     <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
     <div class="deco deco-daisy-bl"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
     <div class="content">
@@ -363,8 +389,8 @@ aside.notes{display:none}
     <aside class="notes">Now for the tastiest part — mooncakes! Say it with me: moon-cake. A mooncake is about the size of your hand, round like the full moon, and filled with something sweet. Some families cut ONE mooncake into enough wedges for the whole family — everyone gets a piece, because sharing is the whole point. And look closely at some mooncakes: inside hides a golden egg yolk, like a tiny moon hiding in your treat. Would you try a bite? What flavor sounds best to you?</aside>
   </section>
 
-  <!-- ============ SLIDE 6 · Mei's festival night ============ -->
-  <section class="slide s6" id="slide-6" role="group" aria-roledescription="slide" aria-label="Slide 6 of 9: One Kid's Festival Night" data-screen-label="Mei's Night">
+  <!-- ============ SLIDE 7 · Mei's festival night ============ -->
+  <section class="slide s6" id="slide-7" role="group" aria-roledescription="slide" aria-label="Slide 7 of 10: One Kid's Festival Night" data-screen-label="Mei's Night">
     <div class="deco deco-daisy-tl"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
     <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
     <div class="content">
@@ -382,8 +408,8 @@ aside.notes{display:none}
     <aside class="notes">Let me introduce you to Mei — a kid just like you, who celebrates this festival every year. Her night goes like this: first, family dinner, with Grandma and Grandpa at the table. Then the best part — lanterns! Kids carry glowing lanterns shaped like fish, stars, and rabbits, and walk to the park together. After that, story time under the moon, and finally — mooncakes for everyone. Now tell me: which part of Mei's night would YOU like best? Point to it — dinner, lanterns, story, or cake?</aside>
   </section>
 
-  <!-- ============ SLIDE 7 · One moon for everyone ============ -->
-  <section class="slide s7" id="slide-7" role="group" aria-roledescription="slide" aria-label="Slide 7 of 9: One Moon for Everyone" data-screen-label="One Moon">
+  <!-- ============ SLIDE 8 · One moon for everyone ============ -->
+  <section class="slide s7" id="slide-8" role="group" aria-roledescription="slide" aria-label="Slide 8 of 10: One Moon for Everyone" data-screen-label="One Moon">
     <div class="deco deco-daisy-tl"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
     <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
     <div class="deco deco-star-2"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
@@ -402,8 +428,8 @@ aside.notes{display:none}
     <aside class="notes">Here is the most beautiful part of the whole festival. Everyone on Earth looks up at the same moon. The very same moon your grandma sees, the same one a cousin far away sees, the same one a friend across the ocean sees. So on festival night, families look up and feel close to each other, even when they are far apart. Maybe some of your neighbors or classmates celebrated last night. Tonight, you can look up too — and think of someone you love while you do it.</aside>
   </section>
 
-  <!-- ============ SLIDE 8 · Class game ============ -->
-  <section class="slide s8" id="slide-8" role="group" aria-roledescription="slide" aria-label="Slide 8 of 9: Let's Play Pass the Mooncake" data-screen-label="Class Game">
+  <!-- ============ SLIDE 9 · Class game ============ -->
+  <section class="slide s8" id="slide-9" role="group" aria-roledescription="slide" aria-label="Slide 9 of 10: Let's Play Pass the Mooncake" data-screen-label="Class Game">
     <div class="deco deco-cloud"><svg aria-hidden="true"><use href="#sym-cloud"/></svg></div>
     <div class="deco deco-star-1"><svg aria-hidden="true"><use href="#sym-star"/></svg></div>
     <div class="deco deco-daisy-br"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
@@ -421,8 +447,8 @@ aside.notes{display:none}
     <aside class="notes">Time to play a festival game! It works just like pass-the-parcel, but with a mooncake. We make a big circle — round like the moon, remember. When the music starts, we pass the mooncake around. When the music stops, whoever is holding it shares one thing they love to share with their family — a food, a game, a story, anything. If we don't have a mooncake, any soft ball will do. Ready? Let's make our circle nice and round!</aside>
   </section>
 
-  <!-- ============ SLIDE 9 · Closing ============ -->
-  <section class="slide s9" id="slide-9" role="group" aria-roledescription="slide" aria-label="Slide 9 of 9: Happy Mid-Autumn Festival" data-screen-label="Closing">
+  <!-- ============ SLIDE 10 · Closing ============ -->
+  <section class="slide s9" id="slide-10" role="group" aria-roledescription="slide" aria-label="Slide 10 of 10: Happy Mid-Autumn Festival" data-screen-label="Closing">
     <div class="deco moon-big"><svg aria-hidden="true"><use href="#sym-moon"/></svg></div>
     <div class="deco deco-daisy-tr"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
     <div class="deco deco-daisy-bl"><svg aria-hidden="true"><use href="#sym-daisy"/></svg></div>
@@ -448,8 +474,9 @@ aside.notes{display:none}
     <button class="nav-dot" type="button" aria-label="Go to slide 7"></button>
     <button class="nav-dot" type="button" aria-label="Go to slide 8"></button>
     <button class="nav-dot" type="button" aria-label="Go to slide 9"></button>
+    <button class="nav-dot" type="button" aria-label="Go to slide 10"></button>
   </nav>
-  <div class="slide-counter" aria-live="polite">01 / 09</div>
+  <div class="slide-counter" aria-live="polite">01 / 10</div>
 </main>
 
 <script>
